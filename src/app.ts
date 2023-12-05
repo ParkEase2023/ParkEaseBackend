@@ -1,5 +1,7 @@
 // src/app.ts
 import express, { Express, Request, Response } from 'express'
+import dotenv from 'dotenv';
+import { connectMongoDB } from '../config/mongoDB';
 import nodemailer from 'nodemailer';
 const Omise = require('omise')
 const QRCode = require('qrcode')
@@ -8,7 +10,14 @@ const omise = new Omise({
   publicKey: "pkey_test_5xg1y8vhghfe2gisvjv",
   secretKey: "skey_test_5xg1au51hinusifooyb",
 });
-const port: number = 3000
+const port = process.env.PORT || 4000;
+dotenv.config({ path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : `.env` });
+connectMongoDB();
+
+
+
+
+
 
 app.get('/', (req: Request, res: Response) => {
   res.json({
@@ -189,7 +198,7 @@ app.get('/sendEmail', async (req, res) => {
         from: 'aim5545123@gmail.com',
         to: 'palita.sim@gmail.com',
         subject: 'ParkEase test send email',
-        text: 'Test test 5555',
+        text: 'kuy pat 5555555',
       };
   
       const info = await transporter.sendMail(mailOptions);
