@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import { connectMongoDB } from './config/mongoDB';
 import omiseRoute from './routes/omiseRoute';
 import emailRoute from './routes/emailRoute';
+// import authRoute from './routes/authRoute';
+
 const Omise = require('omise')
 const QRCode = require('qrcode')
 const app: Express = express()
@@ -16,7 +18,7 @@ dotenv.config({ path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : `.
 connectMongoDB();
 
 
-
+// app.use('/auth', authRoute);
 app.use('/omise', omiseRoute);
 app.use('/emails', emailRoute);
 
