@@ -1,9 +1,9 @@
 import express from 'express';
-import { forgetpassword } from '../controllers/forgetpasswordController.js';
+import {forgetpassword} from '../controllers/forgetpasswordController'
 
-const app = express();
+
 const router = express.Router();
-router.post('/forgetpassword', forgetpassword);
+router.get('/forgetpassword', forgetpassword);
 
 
 export default router;
