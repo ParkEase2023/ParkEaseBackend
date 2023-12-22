@@ -14,6 +14,7 @@ export const forgetpassword = async (req: any) => {
       //   message: "OTP is correct"
       // });
       console.log("OTP is correct");
+      
     } else {
       // res.status(400).json({
       //   message: "OTP is incorrect"
