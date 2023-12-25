@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import nodemailer from 'nodemailer';
+import { forgetpassword } from './forgetpasswordController'
 
 export const sendEmail = async (req: string) => {
       const OTP = req;
@@ -25,7 +26,8 @@ export const sendEmail = async (req: string) => {
       } catch (error) {
         console.error('Error occurred:', error);
       }
-    
+      
+      forgetpassword(OTP)
     
 }
     
