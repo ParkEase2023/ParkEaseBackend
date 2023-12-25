@@ -4,6 +4,7 @@ interface IUserDocument extends Document {
     firstname: string;
     lastname: string;
     email: string;
+    password: string;
     hash: string;
     salt: string;
     profile_picture: string;
@@ -50,7 +51,7 @@ const userSchema = new Schema(
         },
         password: {
             type: String,
-            require: true,
+            require: '123456',
         },
         hash: {
             type: String,
@@ -79,11 +80,11 @@ const userSchema = new Schema(
         },
         bank_number: {
             type:String,
-            required:false,
+            require:false,
         },
         history_booking: {
             type:String,
-            required:false,
+            require:false,
         },
         verification_status:
         {
