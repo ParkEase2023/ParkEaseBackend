@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import nodemailer from 'nodemailer';
+import { forgetpassword } from './forgetpasswordController'
 
-export const sendEmail = async (req: Request, res: Response) => {
+export const sendEmail = async (req: string) => {
+      const OTP = req;
       try {
         const transporter = nodemailer.createTransport({
           host: 'smtp-relay.brevo.com',
@@ -14,9 +16,9 @@ export const sendEmail = async (req: Request, res: Response) => {
     
         const mailOptions: nodemailer.SendMailOptions = {
           from: 'aim5545123@gmail.com',
-          to: 'palita.sim@gmail.com',
+          to: 'surawee.kraikruan@gmail.com',
           subject: 'ParkEase test send email',
-          text: 'kuy pat 5555555',
+          text: `Your OTP code is: ${OTP}`,
         };
     
         const info = await transporter.sendMail(mailOptions);
@@ -24,7 +26,8 @@ export const sendEmail = async (req: Request, res: Response) => {
       } catch (error) {
         console.error('Error occurred:', error);
       }
-    
+      
+      forgetpassword(OTP)
     
 }
     
