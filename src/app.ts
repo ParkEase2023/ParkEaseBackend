@@ -8,7 +8,7 @@ import omiseRoute from './routes/omiseRoute';
 import emailRoute from './routes/emailRoute';
 import authRoute from './routes/authRoute';
 import forgetRoute from './routes/forgetRoute';
-
+import userRoute from './routes/userRoute';
 
 
 
@@ -41,7 +41,7 @@ app.use(cors());
 app.use(express.json());
 
 
-
+app.use('/user', userRoute);
 app.use('/forget', forgetRoute);
 app.use('/auth', authRoute);
 app.use('/omise', omiseRoute);
