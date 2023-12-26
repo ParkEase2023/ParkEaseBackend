@@ -9,7 +9,7 @@ import emailRoute from './routes/emailRoute';
 import authRoute from './routes/authRoute';
 import forgetRoute from './routes/forgetRoute';
 import userRoute from './routes/userRoute';
-
+import parkingRoute from './routes/parkingRoute';
 
 
 const Omise = require('omise')
@@ -40,7 +40,7 @@ app.use(cors());
 
 app.use(express.json());
 
-
+app.use('/parking',parkingRoute);
 app.use('/user', userRoute);
 app.use('/forget', forgetRoute);
 app.use('/auth', authRoute);
