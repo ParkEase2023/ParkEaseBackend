@@ -26,12 +26,30 @@ export const sendEmail = async (req: string) => {
       } catch (error) {
         console.error('Error occurred:', error);
       }
-      
-      forgetpassword(OTP)
-    
-}
-    
-    
-    
-    
-  
+      forgetpassword(OTP);
+};
+
+export const sendEmailforfogetpassword = async (req: string) => {
+  const OTP = req;
+  try {
+    const transporter = nodemailer.createTransport({
+      host:'smtp-relay.brevo.com',
+      port: 587,
+      auth: {
+        user: "aim5545123@gmail.com",
+        pass: "pUwvgQm6YO9yHVkN",
+      },
+    });
+    const mailOptions: nodemailer.SendMailOptions = {
+      from: 'aim5545123@gmail.com',
+      to: 'surawee.1399200001403@gmail.com',
+      subject: 'ParkEase test send email',
+      text: `Your OTP code for forgot password is: ${OTP}`,
+    };
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent:', info.response);
+  }catch (error) {
+  console.error('Error occurred:', error);
+  }
+  forgetpassword(OTP);  
+}  
