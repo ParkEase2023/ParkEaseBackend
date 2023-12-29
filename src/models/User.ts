@@ -10,6 +10,7 @@ interface IUserDocument extends Document {
     profile_picture: string;
     phone_number: string;
     member_status: string;
+    time:Date;
     coins:number;
     account_linked: boolean;
     bank_number: string;
