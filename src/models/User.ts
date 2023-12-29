@@ -10,6 +10,7 @@ interface IUserDocument extends Document {
     profile_picture: string;
     phone_number: string;
     member_status: string;
+    // time:Date;
     coins:number;
     account_linked: boolean;
     bank_number: string;
@@ -51,7 +52,7 @@ const userSchema = new Schema(
         },
         password: {
             type: String,
-            require: '123456',
+            require: true,
         },
         hash: {
             type: String,
