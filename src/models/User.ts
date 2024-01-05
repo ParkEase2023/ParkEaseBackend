@@ -9,8 +9,8 @@ interface IUserDocument extends Document {
     salt: string;
     profile_picture: string;
     phone_number: string;
-    member_status: string;
-    // time:Date;
+    roles: string[];
+    Exptime:Date;
     coins:number;
     account_linked: boolean;
     bank_number: string;
@@ -67,9 +67,9 @@ const userSchema = new Schema(
             default:
                 'https://res.cloudinary.com/dqxh7vakw/image/upload/v1703510862/ParkEase/kwyvtkjl0vxwkqsgfhyf.png',
         },
-        member_status: {
-            type:String,
-            default:'user',
+        roles: {
+            type:Array,
+            default:['user'],
         },
         coins: {
             type: Number,
@@ -91,6 +91,11 @@ const userSchema = new Schema(
         {
             type:String,
             default:false,
+        },
+        Exptime:
+        {
+            type:Date,
+            require:true,
         }
     },
     options
