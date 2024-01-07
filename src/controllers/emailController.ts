@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import nodemailer from 'nodemailer';
 import { forgetpassword } from './forgetpasswordController'
-import { generateOTP } from './otpController';
+import { generateOTP, setOTPtoRedis } from './otpController';
 
 export const sendEmail = async (req: string) => {
       const OTP = req;
@@ -27,11 +27,11 @@ export const sendEmail = async (req: string) => {
       } catch (error) {
         console.error('Error occurred:', error);
       }
-      forgetpassword(OTP);
 };
 
 export const sendEmailforfogetpassword = async (req: Request, res: Response) => {
   const OTP = generateOTP();
+  await setOTPtoRedis(OTP)
   const query = req.query
   const email = query.email as string;
   console.log('Email sent:', email);
