@@ -75,7 +75,7 @@ const ParkingSchema = new Schema(
         createBy: {
             type: Schema.Types.ObjectId,
             ref: 'User',
-            require: false,
+            require: true,
         },
         providerBy: {
             type:String,
