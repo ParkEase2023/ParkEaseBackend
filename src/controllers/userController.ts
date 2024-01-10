@@ -1,6 +1,15 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
 import { uploadImage } from '../utils/cloudinary';
+import bcrypt from 'bcrypt';
+
+const genrateSalt = async () => {
+    return await bcrypt.genSalt();
+};
+  
+const generatePassword = async (password: string, salt: string) => {
+    return await bcrypt.hash(password, salt);
+};
 
 export const getProfile = async (req: Request, res: Response) => {
     const uid = req.session.uid;
@@ -29,6 +38,8 @@ export const updateUser = async (req: Request, res: Response) => {
                 }]
             });
         }
+        const salt = await genrateSalt();
+        const hash = await generatePassword(req.body.password, salt);
 
         await User.findByIdAndUpdate(uid, {
             firstname: req.body.firstname,
@@ -37,6 +48,9 @@ export const updateUser = async (req: Request, res: Response) => {
             email: req.body.email,
             password: req.body.password,
             profile_picture: secure_url,
+            salt:salt,
+            hash:hash
+
         })
 
             .then((data) => {

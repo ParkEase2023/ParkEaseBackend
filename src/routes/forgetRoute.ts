@@ -1,10 +1,11 @@
 import express from 'express';
-import {checkemail, forgetpassword} from '../controllers/forgetpasswordController'
+import {checkemail, checkeOTP, forgetpassword} from '../controllers/forgetpasswordController'
 
 
 const router = express.Router();
 router.get('/checkemail', checkemail);
-router.get('/forgetpassword', forgetpassword);
+router.get('/checkeOTP', checkeOTP);
+router.put('/forgetpassword/:email',forgetpassword)
 
 
 export default router;
