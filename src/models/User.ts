@@ -89,7 +89,7 @@ const userSchema = new Schema(
         },
         verification_status:
         {
-            type:String,
+            type:Boolean,
             default:false,
         },
         Exptime:

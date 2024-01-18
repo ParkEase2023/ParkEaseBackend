@@ -66,5 +66,23 @@ export const updateUser = async (req: Request, res: Response) => {
     }
    
 };
-
+export const verifyYourIdentity = async (req: Request, res: Response) => {
+    try {
+        const Email = req.params.email;
+        await User.findOneAndUpdate({ email: Email }, {
+            verification_status: true,
+        })
+            .then((data) => {
+                console.log(data);
+                res.status(200).json({ data: data });
+            })
+            .catch((err) => {
+                console.log('error', err);
+                res.status(500).json({ message: 'server error' });
+            });
+    } catch (error) {
+        console.log('error', error);
+    }
+   
+  };
 
