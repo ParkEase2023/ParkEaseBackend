@@ -28,6 +28,7 @@
     "omise": "^0.11.0",
     "otp-generator": "^4.0.1",
     "qrcode": "^1.5.3",
+    "redis": "^4.6.12",
     "two-step-auth": "^1.1.2"
   },
   "devDependencies": {

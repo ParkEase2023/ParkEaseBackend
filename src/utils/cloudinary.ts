@@ -8,6 +8,6 @@ cloudinary.v2.config({
 });
 
 export const uploadImage = (file: string) => {
-    console.log(process.env);
+    // console.log(process.env);
     return cloudinary.v2.uploader.upload(file, { folder: process.env.CLOUDINARY_FOLDER });
 };

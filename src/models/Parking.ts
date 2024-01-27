@@ -75,7 +75,7 @@ const ParkingSchema = new Schema(
         createBy: {
             type: Schema.Types.ObjectId,
             ref: 'User',
-            require: false,
+            require: true,
         },
         providerBy: {
             type:String,
@@ -98,31 +98,31 @@ const ParkingSchema = new Schema(
             require:false,
         },
         opening_mo: {
-            type:String,
+            type:Boolean,
             require:false,
         },
         opening_tu: {
-            type:String,
+            type:Boolean,
             require:false,
         },
         opening_we: {
-            type:String,
+            type:Boolean,
             require:false,
         },
         opening_th: {
-            type:String,
+            type:Boolean,
             require:false,
         },
         opening_fr: {
-            type:String,
+            type:Boolean,
             require:false,
         },
         opening_sa: {
-            type:String,
+            type:Boolean,
             require:false,
         },
         opening_su: {
-            type:String,
+            type:Boolean,
             require:false,
         },
     },

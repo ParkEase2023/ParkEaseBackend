@@ -10,7 +10,7 @@ import authRoute from './routes/authRoute';
 import forgetRoute from './routes/forgetRoute';
 import userRoute from './routes/userRoute';
 import parkingRoute from './routes/parkingRoute';
-
+import bodyParser from 'body-parser';
 
 const Omise = require('omise')
 const QRCode = require('qrcode')
@@ -28,6 +28,16 @@ declare module 'express-session' {
       [key: string]: any;
   }
 }
+
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(
+    expressSession({
+        secret: 'secret',
+        resave: true,
+        saveUninitialized: true,
+    })
+);
 
 app.use(
   expressSession({
