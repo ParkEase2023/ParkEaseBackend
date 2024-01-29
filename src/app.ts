@@ -10,6 +10,7 @@ import authRoute from './routes/authRoute';
 import forgetRoute from './routes/forgetRoute';
 import userRoute from './routes/userRoute';
 import parkingRoute from './routes/parkingRoute';
+import mylistRoute from './routes/mylistRoute';
 import bodyParser from 'body-parser';
 
 const Omise = require('omise')
@@ -56,7 +57,7 @@ app.use('/forget', forgetRoute);
 app.use('/auth', authRoute);
 app.use('/omise', omiseRoute);
 app.use('/emails', emailRoute);
-
+app.use('/mylist', mylistRoute);
 
 
 app.get('/', (req: Request, res: Response) => {
