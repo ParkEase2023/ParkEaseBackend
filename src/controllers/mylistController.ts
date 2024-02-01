@@ -60,4 +60,16 @@ export const getMyList = async (req: Request, res: Response) => {
         console.log(err);
         res.status(500);
     }
-}
+};
+
+export const deleteMyList = async (req: Request, res: Response) => {
+    console.log(req.query._id)
+    await Mylist.findByIdAndDelete(req.query._id)
+        .then((data: any) => {
+            console.log(data);
+            res.send(data);
+        })
+        .catch((err: any) => {
+            console.log('error', err);
+        });
+};

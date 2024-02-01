@@ -6,6 +6,15 @@ interface IMylistDocument extends Document {
 }
 
 const options: SchemaOptions = {
+    toJSON: {
+        transform(doc, ret) {
+            // delete ret._id;
+            // delete ret.password;
+            // delete ret.salt;
+            // delete ret.createAt;
+            // delete ret.updateAt;
+        },
+    },
     timestamps: true,
 };
 
