@@ -9,7 +9,7 @@ const omise = new Omise({
     secretKey: 'skey_test_5xg1au51hinusifooyb',
 });
 
-export const createdPromptPayQRCode = async () => {
+export const createdPromptPayQRCode = async (req: Request, res: Response) => {
     // async function generatePromptPayQRCode(amount: number, phoneNumber: string): Promise<string> {
     //     try {
     //         const response = await omise.sources.create({
@@ -84,12 +84,18 @@ export const createdPromptPayQRCode = async () => {
 
             // Convert the base64 SVG data to JPG
             const jpgBuffer = await sharp(Buffer.from(base64Data, 'base64'))
-                .toFormat('jpeg')
+                .toFormat('jpg')
                 .toBuffer();
 
             // Convert the JPG buffer to base64
             const jpgBase64Data = jpgBuffer.toString('base64');
-
+            const dataUri = `data:image/jpeg;base64,${jpgBase64Data}`;
+            const  {secure_url}  =  await uploadImage(dataUri);
+            console.log(secure_url); 
+            res.status(200).json({
+                message: 'success',
+                data: secure_url,
+            });
             // Save the JPG base64 data to a file (optional)
             fs.writeFileSync('output.jpg', jpgBase64Data, 'base64');
 
@@ -105,9 +111,12 @@ export const createdPromptPayQRCode = async () => {
         'https://api.omise.co/charges/chrg_test_5yo48yeud2kbp3ze500/documents/docu_test_5yo48ygmypagffsatjo/downloads/5A1FB23047E8EE1E'; // Replace with your desired file URL
 
     downloadAndConvertToJpg(url)
-        .then((jpgBase64Data) => {
+        .then( (jpgBase64Data) => {
             // Use the jpgBase64Data as needed here
-            console.log(jpgBase64Data);
+            // console.log(jpgBase64Data);
+            
+            // const  secure_url  =  uploadImage(jpgBase64Data);
+            // console.log(secure_url);
         })
         .catch((error) => {
             // Handle errors
