@@ -29,6 +29,7 @@
     "otp-generator": "^4.0.1",
     "qrcode": "^1.5.3",
     "redis": "^4.6.12",
+    "sharp": "^0.33.2",
     "two-step-auth": "^1.1.2"
   },
   "devDependencies": {

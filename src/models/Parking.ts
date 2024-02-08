@@ -129,6 +129,6 @@ const ParkingSchema = new Schema(
     options
 );
 
-const Parking = model<IParkingDocument>('Parking', ParkingSchema);
+const Parking = model<IParkingDocument>('parkings', ParkingSchema);
 
 export default Parking;
