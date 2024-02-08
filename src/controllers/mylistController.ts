@@ -63,10 +63,10 @@ export const getMyList = async (req: Request, res: Response) => {
 };
 
 export const deleteMyList = async (req: Request, res: Response) => {
-    console.log(req.query._id)
+    // console.log(req.query._id)
     await Mylist.findByIdAndDelete(req.query._id)
         .then((data: any) => {
-            console.log(data);
+            // console.log(data);
             res.send(data);
         })
         .catch((err: any) => {
