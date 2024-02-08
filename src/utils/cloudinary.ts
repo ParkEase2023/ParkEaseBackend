@@ -9,8 +9,8 @@ cloudinary.v2.config({
 });
 
 export const uploadImage = (file: string) => {
-    console.log(file);
+    // console.log(file);
     const aom = cloudinary.v2.uploader.upload(file, { folder: process.env.CLOUDINARY_FOLDER });
-    console.log('Uploading image', aom);
+    // console.log('Uploading image', aom);
     return aom
 };

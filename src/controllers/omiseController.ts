@@ -29,7 +29,7 @@ export const createdPromptPayQRCode = async (req: Request, res: Response) => {
                 source: response.id,
             });
 
-            console.log('Omise API Response2:', response2);
+            // console.log('Omise API Response2:', response2);
 
             if (
                 response2.source &&
@@ -37,8 +37,10 @@ export const createdPromptPayQRCode = async (req: Request, res: Response) => {
                 response2.source.scannable_code.image &&
                 response2.source.scannable_code.image.download_uri
             ) {
+                const id = response2.id
+                // console.log(id);
                 const qrCodeUrl = response2.source.scannable_code.image.download_uri;
-                downloadAndConvertToJpg(qrCodeUrl)
+                downloadAndConvertToJpg(qrCodeUrl,id)
 
                 return qrCodeUrl;
             } else {
@@ -64,7 +66,7 @@ export const createdPromptPayQRCode = async (req: Request, res: Response) => {
             console.error('Failed to generate PromptPay QR Code:', error);
         });
 
-    async function downloadAndConvertToJpg(url: string) {
+    async function downloadAndConvertToJpg(url: string , id:string) {
         try {
 
             const response = await axios.get(url, { responseType: 'arraybuffer' });
@@ -81,10 +83,11 @@ export const createdPromptPayQRCode = async (req: Request, res: Response) => {
             const jpgBase64Data = jpgBuffer.toString('base64');
             const dataUri = `data:image/jpeg;base64,${jpgBase64Data}`;
             const { secure_url } = await uploadImage(dataUri);
-            console.log(secure_url);
+            // console.log(secure_url);
             res.status(200).json({
                 message: 'success',
                 data: secure_url,
+                dataId: id
             });
             // Save the JPG base64 data to a file (optional)
             // fs.writeFileSync('output.jpg', jpgBase64Data, 'base64');
@@ -106,10 +109,16 @@ export const CheckCharge = async (req: Request, res: Response) => {
         try {
             const charge = await omise.charges.retrieve(chargeId);
             if (charge.source.charge_status == 'successful') {
-                console.log('จ่ายเงินสำเร็จ');
+                console.log('ชำระเงินสำเร็จ')
+                res.status(200).json({
+                    message: 'success',
+                });
             }
             if (charge.source.charge_status == 'pending') {
                 console.log('รอดำเนินการ');
+                res.status(200).json({
+                    message: 'pending',
+                });
             }
             return charge;
         } catch (error) {
@@ -117,18 +126,13 @@ export const CheckCharge = async (req: Request, res: Response) => {
             throw error;
         }
     }
+    const body = req.body;
+    console.log(body)
 
-    // Example usage
-    const chargeId: string = 'chrg_test_5y1siis9ptwqcgmvt09'; // Replace this with the actual charge ID you want to search for
+    const chargeId: string = body.Id; 
 
     searchCharge(chargeId)
-        .then((charge) => {
-            console.log('Charge found:');
-            console.log(charge);
-        })
-        .catch((error) => {
-            console.error('Failed to search for charge:', error);
-        });
+    
 };
 
 export const Recipient = async (req: Request, res: Response) => {

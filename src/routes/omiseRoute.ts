@@ -5,7 +5,7 @@ import {Recipient} from '../controllers/omiseController';
 import {Transfers} from '../controllers/omiseController';
 const router = express.Router();
 router.post('/created', createdPromptPayQRCode);
-router.get('/check',CheckCharge)
+router.post('/check',CheckCharge)
 router.get('/recipient',Recipient)
 router.get('/transfers',Transfers)
 
