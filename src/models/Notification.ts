@@ -3,7 +3,6 @@ import { Document, model, Schema, ObjectId, SchemaOptions } from 'mongoose';
 interface INotificationDocument extends Document {
     userId: ObjectId;
     Topic: string;
-    Currentdate: string;
     Booking: boolean;
     From: string;
     To: string;
@@ -21,10 +20,6 @@ const NotificationSchema = new Schema(
             require: true,
         },
         Topic: {
-            type: String,
-            require: true,
-        },
-        Currentdate: {
             type: String,
             require: true,
         },

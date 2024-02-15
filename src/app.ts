@@ -13,6 +13,7 @@ import parkingRoute from './routes/parkingRoute';
 import mylistRoute from './routes/mylistRoute';
 import commentRoute from './routes/commentRoute';
 import transactionRoute from './routes/transactionRoute';
+import notificationRoute from './routes/notificationRoute';
 import bodyParser from 'body-parser';
 
 const Omise = require('omise')
@@ -62,6 +63,7 @@ app.use('/emails', emailRoute);
 app.use('/mylist', mylistRoute);
 app.use('/transaction', transactionRoute);
 app.use('/comment', commentRoute);
+app.use('/notification', notificationRoute);
 
 
 
