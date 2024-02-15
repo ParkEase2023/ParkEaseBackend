@@ -11,6 +11,7 @@ import forgetRoute from './routes/forgetRoute';
 import userRoute from './routes/userRoute';
 import parkingRoute from './routes/parkingRoute';
 import mylistRoute from './routes/mylistRoute';
+import commentRoute from './routes/commentRoute';
 import transactionRoute from './routes/transactionRoute';
 import bodyParser from 'body-parser';
 
@@ -60,6 +61,8 @@ app.use('/omise', omiseRoute);
 app.use('/emails', emailRoute);
 app.use('/mylist', mylistRoute);
 app.use('/transaction', transactionRoute);
+app.use('/comment', commentRoute);
+
 
 
 app.get('/', (req: Request, res: Response) => {
