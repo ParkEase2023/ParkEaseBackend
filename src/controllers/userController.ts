@@ -84,5 +84,5 @@ export const verifyYourIdentity = async (req: Request, res: Response) => {
         console.log('error', error);
     }
    
-  };
+};
 
