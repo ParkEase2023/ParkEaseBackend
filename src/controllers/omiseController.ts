@@ -37,10 +37,10 @@ export const createdPromptPayQRCode = async (req: Request, res: Response) => {
                 response2.source.scannable_code.image &&
                 response2.source.scannable_code.image.download_uri
             ) {
-                const id = response2.id
+                const id = response2.id;
                 // console.log(id);
                 const qrCodeUrl = response2.source.scannable_code.image.download_uri;
-                downloadAndConvertToJpg(qrCodeUrl,id)
+                downloadAndConvertToJpg(qrCodeUrl, id);
 
                 return qrCodeUrl;
             } else {
@@ -54,8 +54,8 @@ export const createdPromptPayQRCode = async (req: Request, res: Response) => {
     }
 
     const body = req.body;
-    const amount: number = body.amount; 
-    const phoneNumber: string = body.phonenumber; 
+    const amount: number = body.amount;
+    const phoneNumber: string = body.phonenumber;
 
     generatePromptPayQRCode(amount, phoneNumber)
         .then((qrCodeUrl) => {
@@ -66,20 +66,16 @@ export const createdPromptPayQRCode = async (req: Request, res: Response) => {
             console.error('Failed to generate PromptPay QR Code:', error);
         });
 
-    async function downloadAndConvertToJpg(url: string , id:string) {
+    async function downloadAndConvertToJpg(url: string, id: string) {
         try {
-
             const response = await axios.get(url, { responseType: 'arraybuffer' });
 
-            
             const base64Data = Buffer.from(response.data, 'binary').toString('base64');
 
-        
             const jpgBuffer = await sharp(Buffer.from(base64Data, 'base64'))
                 .toFormat('jpg')
                 .toBuffer();
 
-            
             const jpgBase64Data = jpgBuffer.toString('base64');
             const dataUri = `data:image/jpeg;base64,${jpgBase64Data}`;
             const { secure_url } = await uploadImage(dataUri);
@@ -87,7 +83,7 @@ export const createdPromptPayQRCode = async (req: Request, res: Response) => {
             res.status(200).json({
                 message: 'success',
                 data: secure_url,
-                dataId: id
+                dataId: id,
             });
             // Save the JPG base64 data to a file (optional)
             // fs.writeFileSync('output.jpg', jpgBase64Data, 'base64');
@@ -98,18 +94,14 @@ export const createdPromptPayQRCode = async (req: Request, res: Response) => {
             throw error;
         }
     }
-
-
 };
-
-
 
 export const CheckCharge = async (req: Request, res: Response) => {
     async function searchCharge(chargeId: string): Promise<string> {
         try {
             const charge = await omise.charges.retrieve(chargeId);
             if (charge.source.charge_status == 'successful') {
-                console.log('ชำระเงินสำเร็จ')
+                console.log('ชำระเงินสำเร็จ');
                 res.status(200).json({
                     message: 'success',
                 });
@@ -127,12 +119,30 @@ export const CheckCharge = async (req: Request, res: Response) => {
         }
     }
     const body = req.body;
-    console.log(body)
+    console.log(body);
 
-    const chargeId: string = body.Id; 
+    const chargeId: string = body.Id;
 
-    searchCharge(chargeId)
-    
+    searchCharge(chargeId);
+};
+
+export const createdRecipient = async (req: Request, res: Response) => {
+    try {
+        const recipient = await omise.recipients.create({
+            name: 'Recipient Name',
+            email: 'recipient@example.com',
+            type: 'individual',
+            bank_account: {
+                brand: 'bbl',
+                number: '1234567890',
+                name: 'Account Holder Name',
+                bank_code: 'BBL',
+            },
+        });
+        console.log('Recipient created:', recipient);
+    } catch (error) {
+        console.error('Failed to create recipient:', error);
+    }
 };
 
 export const Recipient = async (req: Request, res: Response) => {
@@ -146,8 +156,7 @@ export const Recipient = async (req: Request, res: Response) => {
         }
     }
 
-    // Example usage
-    const recipientId: string = 'recp_test_5xhkxsbcymwv1vsrogx'; // Replace this with the actual recipient ID you want to search for
+    const recipientId: string = 'recp_test_5yuh0cx6p10ikqxrou2';
 
     searchRecipient(recipientId)
         .then((recipient) => {
@@ -163,8 +172,8 @@ export const Transfers = async (req: Request, res: Response) => {
     async function transferMoney(amount: number, recipientId: string): Promise<string> {
         try {
             const transfer = await omise.transfers.create({
-                amount: amount * 100, // Amount in Satang (1 Thai Baht = 100 Satang)
-                recipient: recipientId, // Recipient ID to transfer money to
+                amount: amount * 100,
+                recipient: recipientId,
             });
 
             return transfer;
@@ -175,8 +184,8 @@ export const Transfers = async (req: Request, res: Response) => {
     }
 
     // Example usage
-    const amount: number = 59; // Amount in Thai Baht
-    const recipientId: string = 'recp_test_5xhkxsbcymwv1vsrogx'; // Recipient ID to transfer money to
+    const amount: number = 59;
+    const recipientId: string = 'recp_test_5xhkxsbcymwv1vsrogx';
 
     transferMoney(amount, recipientId)
         .then((transfer) => {
