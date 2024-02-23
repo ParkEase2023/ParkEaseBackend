@@ -127,21 +127,30 @@ export const CheckCharge = async (req: Request, res: Response) => {
 };
 
 export const createdRecipient = async (req: Request, res: Response) => {
+    const body = req.body;
+    const name: string = body.firstname + ' ' + body.lastname;
+    const bank :string = body.bank.toLowerCase();
     try {
         const recipient = await omise.recipients.create({
-            name: 'Recipient Name',
-            email: 'recipient@example.com',
+            name: name,
+            email: body.email,
             type: 'individual',
+            tax_id: body.taxId,
             bank_account: {
-                brand: 'bbl',
-                number: '1234567890',
-                name: 'Account Holder Name',
-                bank_code: 'BBL',
+                brand: bank,
+                number: body.accountnumber,
+                name: body.accountname,
+                bank_code: body.bank,
             },
         });
         console.log('Recipient created:', recipient);
+        res.status(201).json({
+            message: 'created',
+            data: recipient.id,
+        })
     } catch (error) {
         console.error('Failed to create recipient:', error);
+        res.status(500);
     }
 };
 
