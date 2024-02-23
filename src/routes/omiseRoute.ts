@@ -8,7 +8,7 @@ router.post('/created', createdPromptPayQRCode);
 router.post('/check',CheckCharge);
 router.get('/recipient',Recipient);
 router.get('/transfers',Transfers);
-router.get('/createrecipient',createdRecipient);
+router.post('/createrecipient',createdRecipient);
 
 
 
