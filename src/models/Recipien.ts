@@ -1,7 +1,7 @@
 import { Document, model, ObjectId, Schema, SchemaOptions } from 'mongoose';
 
 interface IRecipienDocument extends Document {
-    useId: ObjectId;
+    userId: ObjectId;
     recipienId: string;
     approve_status: boolean;
     firstname: string;
@@ -19,7 +19,7 @@ const options: SchemaOptions = {
 
 const RecipienSchema = new Schema(
     {
-        useId: {
+        userId: {
             type: Schema.Types.ObjectId,
             ref: 'User',
             require: true,
