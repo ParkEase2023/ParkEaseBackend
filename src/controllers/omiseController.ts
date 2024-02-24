@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { createWriteStream } from 'fs';
 import axios from 'axios';
 import { uploadImage } from '../utils/cloudinary';
+import { approveRecipien } from './recipienController';
 const Omise = require('omise');
 const QRCode = require('qrcode');
 const omise = new Omise({
@@ -154,10 +155,13 @@ export const createdRecipient = async (req: Request, res: Response) => {
     }
 };
 
-export const Recipient = async (req: Request, res: Response) => {
+export const Recipient = async (Id:string,email:string) => {
     async function searchRecipient(recipientId: string): Promise<string> {
         try {
             const recipient = await omise.recipients.retrieve(recipientId);
+            if(recipient.active === true  && recipient.verified ===true) {
+                approveRecipien(recipientId,email);
+            }
             return recipient;
         } catch (error) {
             console.error(`Error searching for recipient with ID ${recipientId}:`, error);
@@ -165,11 +169,11 @@ export const Recipient = async (req: Request, res: Response) => {
         }
     }
 
-    const recipientId: string = 'recp_test_5yuh0cx6p10ikqxrou2';
+    const recipientId: string = Id;
 
     searchRecipient(recipientId)
         .then((recipient) => {
-            console.log('Recipient found:');
+            console.log('Recipient found');
             console.log(recipient);
         })
         .catch((error) => {

@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import Recipien from '../models/Recipien';
 import mongoose from 'mongoose';
+import { Recipient } from './omiseController';
+import { sendEmailApproveRecipien } from './emailController';
 
 export const createRecipienOnDB = async (req: Request, res: Response) => {
     console.log('createRecipienOnDB work!');
@@ -16,8 +18,6 @@ export const createRecipienOnDB = async (req: Request, res: Response) => {
     }
 };
 
-
-
 export const getRecipienOnDB = async (req: Request, res: Response) => {
     console.log('getRecipienOnDB working');
     const query = req.query;
@@ -27,8 +27,8 @@ export const getRecipienOnDB = async (req: Request, res: Response) => {
             const regexQuery = query.userId;
             if (regexQuery) {
                 const dataRecipienOnDB: any = await Recipien.aggregate([
-                    { $match: { userId: new mongoose.Types.ObjectId(regexQuery.toString()) } }
-                ])
+                    { $match: { userId: new mongoose.Types.ObjectId(regexQuery.toString()) } },
+                ]);
                 if (dataRecipienOnDB) {
                     res.status(200).json({
                         message: 'success',
@@ -53,5 +53,43 @@ export const getRecipienOnDB = async (req: Request, res: Response) => {
     } catch (err) {
         console.log(err);
         res.status(500);
+    }
+};
+
+export const getAllRecipien = async (req: Request, res: Response) => {
+    console.log('getAllRecipien working!');
+    const data = await Recipien.find();
+    res.status(200).json({
+        message: 'success',
+        data: data,
+    });
+};
+
+export const cronJobApproveRecipien = async (req:any) => {
+    console.log('cronJobApproveRecipien working!');
+    const body = req
+    body.map((item: any) => {
+        if(item.approve_status === false){
+            Recipient(item.recipienId,item.email)
+        };
+    })
+};
+
+
+export const approveRecipien = async (RecipienId:any,email:string) => {
+    try {
+        await Recipien.findOneAndUpdate({ recipienId: RecipienId },
+            {
+                approve_status: true,
+            }
+        ).then((data) => {
+                console.log("success");
+                sendEmailApproveRecipien(email)
+            })
+            .catch((err) => {
+                console.log('error', err);
+            });
+    } catch (error) {
+        console.log('error', error);
     }
 };

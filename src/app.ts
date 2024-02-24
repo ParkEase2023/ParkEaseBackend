@@ -16,6 +16,7 @@ import transactionRoute from './routes/transactionRoute';
 import notificationRoute from './routes/notificationRoute';
 import recipienRoute from './routes/recipienRoute';
 import bodyParser from 'body-parser';
+import {cronJobMiddleware} from './cronjob/cronJobMiddleware';
 
 const Omise = require('omise')
 const QRCode = require('qrcode')
@@ -27,6 +28,7 @@ const omise = new Omise({
 const port = process.env.PORT || 4000;
 dotenv.config({ path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : `.env` });
 connectMongoDB();
+cronJobMiddleware();
 
 declare module 'express-session' {
   interface SessionData {
@@ -66,6 +68,7 @@ app.use('/transaction', transactionRoute);
 app.use('/comment', commentRoute);
 app.use('/notification', notificationRoute);
 app.use('/recipien', recipienRoute);
+
 
 
 
