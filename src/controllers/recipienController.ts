@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import Recipien from '../models/Recipien';
 import mongoose from 'mongoose';
-import { Recipient } from './omiseController';
+import { Recipient, deleteRecipient } from './omiseController';
 import { sendEmailApproveRecipien } from './emailController';
+import { destroyAccountLinked } from './userController';
 
 export const createRecipienOnDB = async (req: Request, res: Response) => {
     console.log('createRecipienOnDB work!');
@@ -65,26 +66,27 @@ export const getAllRecipien = async (req: Request, res: Response) => {
     });
 };
 
-export const cronJobApproveRecipien = async (req:any) => {
+export const cronJobApproveRecipien = async (req: any) => {
     console.log('cronJobApproveRecipien working!');
-    const body = req
+    const body = req;
     body.map((item: any) => {
-        if(item.approve_status === false){
-            Recipient(item.recipienId,item.email)
-        };
-    })
+        if (item.approve_status === false) {
+            Recipient(item.recipienId, item.email);
+        }
+    });
 };
 
-
-export const approveRecipien = async (RecipienId:any,email:string) => {
+export const approveRecipien = async (RecipienId: any, email: string) => {
     try {
-        await Recipien.findOneAndUpdate({ recipienId: RecipienId },
+        await Recipien.findOneAndUpdate(
+            { recipienId: RecipienId },
             {
                 approve_status: true,
             }
-        ).then((data) => {
-                console.log("success");
-                sendEmailApproveRecipien(email)
+        )
+            .then((data) => {
+                console.log('success');
+                sendEmailApproveRecipien(email);
             })
             .catch((err) => {
                 console.log('error', err);
@@ -93,3 +95,30 @@ export const approveRecipien = async (RecipienId:any,email:string) => {
         console.log('error', error);
     }
 };
+
+export const destroyRecipien = async (req: Request, res: Response) => {
+    const body = req.body;
+    try {
+        deleteRecipient(body.recipienId);
+        deteleRecipienOnDB(body.recipienId);
+        destroyAccountLinked(body.userId);
+        res.status(201).json({
+            message:"success"
+        });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500);
+    }
+};
+
+export const deteleRecipienOnDB = async (recipienId:string) => {
+    await Recipien.findOneAndDelete({recipienId:recipienId})
+        .then((data: any) => {
+            console.log(data);
+        })
+        .catch((err: any) => {
+            console.log('error', err);
+        });
+}
+

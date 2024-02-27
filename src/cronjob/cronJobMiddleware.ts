@@ -4,7 +4,7 @@ import axios from 'axios';
 import { cronJobApproveRecipien } from '../controllers/recipienController';
 
 export const cronJobMiddleware = () => {
-    cron.schedule('0 * * * *', async () => {
+    cron.schedule('* * * * *', async () => {
         try {
             const response = await axios.get('http://localhost:4000/recipien/getAllRecipien');
             const task = response.data.data

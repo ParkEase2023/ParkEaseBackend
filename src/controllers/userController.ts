@@ -105,3 +105,17 @@ export const accountLinked = async (req: Request, res: Response) => {
         console.log('error', error);
     }
 };
+
+
+export const destroyAccountLinked = async (UserId:string) => {
+    try {
+        await User.findOneAndUpdate({ _id: UserId },
+            {
+                account_linked: false,
+            }
+        )
+        console.log('destroyAccountLinked success');
+    } catch (error) {
+        console.log('error', error);
+    }
+};

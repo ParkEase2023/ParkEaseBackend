@@ -130,7 +130,7 @@ export const CheckCharge = async (req: Request, res: Response) => {
 export const createdRecipient = async (req: Request, res: Response) => {
     const body = req.body;
     const name: string = body.firstname + ' ' + body.lastname;
-    const bank :string = body.bank.toLowerCase();
+    const bank: string = body.bank.toLowerCase();
     try {
         const recipient = await omise.recipients.create({
             name: name,
@@ -148,19 +148,19 @@ export const createdRecipient = async (req: Request, res: Response) => {
         res.status(201).json({
             message: 'created',
             data: recipient.id,
-        })
+        });
     } catch (error) {
         console.error('Failed to create recipient:', error);
         res.status(500);
     }
 };
 
-export const Recipient = async (Id:string,email:string) => {
+export const Recipient = async (Id: string, email: string) => {
     async function searchRecipient(recipientId: string): Promise<string> {
         try {
             const recipient = await omise.recipients.retrieve(recipientId);
-            if(recipient.active === true  && recipient.verified ===true) {
-                approveRecipien(recipientId,email);
+            if (recipient.active === true && recipient.verified === true) {
+                approveRecipien(recipientId, email);
             }
             return recipient;
         } catch (error) {
@@ -178,6 +178,29 @@ export const Recipient = async (Id:string,email:string) => {
         })
         .catch((error) => {
             console.error('Failed to search for recipient:', error);
+        });
+};
+
+export const deleteRecipient = async (Id: string) => {
+    async function destroyRecipient(recipientId: string): Promise<string> {
+        try {
+            const destroy = await omise.recipients.destroy(recipientId);
+            return destroy;
+        } catch (error) {
+            console.error(`Error destroy for recipient with ID ${recipientId}:`, error);
+            throw error;
+        }
+    }
+
+    const recipientId: string = Id;
+
+    destroyRecipient(recipientId)
+        .then((destroy) => {
+            console.log('Recipient deleted');
+            console.log(destroy);
+        })
+        .catch((error) => {
+            console.error('Failed to delete for recipient:', error);
         });
 };
 
