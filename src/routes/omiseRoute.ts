@@ -6,6 +6,7 @@ const router = express.Router();
 router.post('/created', createdPromptPayQRCode);
 router.post('/check',CheckCharge);
 router.post('/createrecipient',createdRecipient);
+router.post('/transfers',Transfers);
 
 
 

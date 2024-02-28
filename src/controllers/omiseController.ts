@@ -204,7 +204,7 @@ export const deleteRecipient = async (Id: string) => {
         });
 };
 
-export const Transfers = async (withdrawmoney: number, Id: string) => {
+export const Transfers = async (req: Request, res: Response) => {
     async function transferMoney(amount: number, recipientId: string): Promise<string> {
         try {
             const transfer = await omise.transfers.create({
@@ -220,38 +220,21 @@ export const Transfers = async (withdrawmoney: number, Id: string) => {
     }
 
     // Example usage
-    const amount: number = withdrawmoney;
-    const recipientId: string = Id;
+    const amount: number = req.body.withdrawmoney;
+    const recipientId: string = req.body.recipienId;
 
     transferMoney(amount, recipientId)
         .then((transfer) => {
             console.log('Money transferred successfully!');
             console.log('Transfer ID:', transfer);
-            return transfer;
+            res.status(201).json({
+                message: 'created',
+                data: transfer,
+            });
         })
         .catch((error) => {
             console.error('Failed to transfer money:', error);
         });
 };
 
-// app.get('/checkAccountBalance', async (req, res) => {
-//     async function checkAccountBalance(): Promise<string> {
-//       try {
-//         const account = await omise.balance.retrieve();
-//         return account;
-//       } catch (error) {
-//         console.error('Error checking account balance:', error);
-//         throw error;
-//       }
-//     }
 
-//     // Example usage
-//     checkAccountBalance()
-//       .then(account => {
-//         console.log('Account balance retrieved successfully!');
-//         console.log('Account balance:', account);
-//       })
-//       .catch(error => {
-//         console.error('Failed to check account balance:', error);
-//       });
-//   });

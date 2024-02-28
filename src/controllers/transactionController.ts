@@ -38,10 +38,8 @@ export const withdrawMoney = async (req: Request, res: Response) => {
             coins : totalCoins,
         })
             .then(async (data) => {
-                const transfer = await Transfers(withdrawmoney,req.body.recipienId);
                 console.log(data);
-                res.status(200).json({ data: data ,dataTransfer:transfer});
-
+                res.status(200).json({ data: data });
             })
             .catch((err) => {
                 console.log('error', err);
