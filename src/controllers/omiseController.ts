@@ -204,7 +204,7 @@ export const deleteRecipient = async (Id: string) => {
         });
 };
 
-export const Transfers = async (req: Request, res: Response) => {
+export const Transfers = async (withdrawmoney: number, Id: string) => {
     async function transferMoney(amount: number, recipientId: string): Promise<string> {
         try {
             const transfer = await omise.transfers.create({
@@ -220,13 +220,14 @@ export const Transfers = async (req: Request, res: Response) => {
     }
 
     // Example usage
-    const amount: number = 59;
-    const recipientId: string = 'recp_test_5xhkxsbcymwv1vsrogx';
+    const amount: number = withdrawmoney;
+    const recipientId: string = Id;
 
     transferMoney(amount, recipientId)
         .then((transfer) => {
             console.log('Money transferred successfully!');
             console.log('Transfer ID:', transfer);
+            return transfer;
         })
         .catch((error) => {
             console.error('Failed to transfer money:', error);
