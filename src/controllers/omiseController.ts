@@ -3,6 +3,7 @@ import { createWriteStream } from 'fs';
 import axios from 'axios';
 import { uploadImage } from '../utils/cloudinary';
 import { approveRecipien } from './recipienController';
+import { approveTransfers } from './transactionController';
 const Omise = require('omise');
 const QRCode = require('qrcode');
 const omise = new Omise({
@@ -234,6 +235,33 @@ export const Transfers = async (req: Request, res: Response) => {
         })
         .catch((error) => {
             console.error('Failed to transfer money:', error);
+        });
+};
+
+
+export const findTransfers = async (Id: string, email: string, Amount:number) => {
+    async function searchTransfers(transfersId: string): Promise<string> {
+        try {
+            const transfer = await omise.transfers.retrieve(transfersId);
+            if (transfer.sent === true && transfer.paid === true) {
+                approveTransfers(transfersId, email,Amount);
+            }
+            return transfer;
+        } catch (error) {
+            console.error(`Error searching for recipient with ID ${transfersId}:`, error);
+            throw error;
+        }
+    }
+
+    const transfersId: string = Id;
+
+    searchTransfers(transfersId)
+        .then((transfer) => {
+            console.log('transfer found');
+            console.log(transfer);
+        })
+        .catch((error) => {
+            console.error('Failed to search for transfer:', error);
         });
 };
 

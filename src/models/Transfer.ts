@@ -4,6 +4,7 @@ interface ITransferDocument extends Document {
     transferId: string;
     amount: number;
     email: string;
+    approve_status:boolean;
 }
 
 const options: SchemaOptions = {
@@ -24,6 +25,11 @@ const TransferSchema = new Schema(
         email: {
             type: String,
             require: true,
+        },
+        approve_status:{
+            type: Boolean,
+            require: true,
+            default: false,
         }
     },
     options
