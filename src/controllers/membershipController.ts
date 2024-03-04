@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
 import { addMonths, format } from 'date-fns';
+import { sendEmailmembership } from './emailController';
 
 export const applyMember = async (req: Request, res: Response) => {
     const today = new Date();
@@ -9,7 +10,7 @@ export const applyMember = async (req: Request, res: Response) => {
     const nextMonth = addMonths(today, 1);
     let totalCoins = coins - price;
     let Rols = req.body.roles
-    Rols = [...Rols, 'member'];
+    Rols = ['user', 'member'];
     try {
         const Email = req.params.email;
         await User.findOneAndUpdate(
@@ -22,6 +23,7 @@ export const applyMember = async (req: Request, res: Response) => {
         )
             .then((data) => {
                 console.log(data);
+                sendEmailmembership(req.params.email,"member");
                 res.status(200).json({ message: 'created', data: data });
             })
             .catch((err) => {
@@ -41,7 +43,7 @@ export const applyPartner = async (req: Request, res: Response) => {
     const nextMonth = addMonths(today, 1);
     let totalCoins = coins - price;
     let Rols = req.body.roles
-    Rols = [...Rols, 'partner'];
+    Rols = ['user', 'partner'];
     try {
         const Email = req.params.email;
         await User.findOneAndUpdate(
@@ -54,6 +56,7 @@ export const applyPartner = async (req: Request, res: Response) => {
         )
             .then((data) => {
                 console.log(data);
+                sendEmailmembership(req.params.email,"partner");
                 res.status(200).json({ message: 'created', data: data });
             })
             .catch((err) => {
