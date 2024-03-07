@@ -119,3 +119,17 @@ export const destroyAccountLinked = async (UserId:string) => {
         console.log('error', error);
     }
 };
+
+
+export const getAllUser = async (req: Request, res: Response) => {
+
+    console.log('getAllUser working!');
+  
+  
+    const data = await User.find();
+    res.status(200).json({
+      message: 'success',
+      data: data,
+    });
+  
+  };
