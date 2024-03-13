@@ -16,7 +16,7 @@ async function sendSticker(message, stickerPackageId, stickerId) {
       },
     });
   } catch (error) {
-    console.log(error.response?.data?.message || error.message);
+    console.log(error.response.data.message);
   }
 }
 
@@ -30,7 +30,7 @@ async function send() {
       },
     });
   } catch (error) {
-    console.log(error.response?.data?.message || error.message);
+    console.log(error.response.data.message);
   }
 }
 
