@@ -61,7 +61,7 @@ jobs:
 
       - name: after-deployment
         if: ${{ job.status == 'success' }}
-          run: node notify-before.ts
+        run: node notify-before.ts
         if: ${{ job.status == 'failure' }}
-          run: node notify-before.ts
+        run: node notify-before.ts
         
