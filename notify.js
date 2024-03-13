@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const url = "https://notify-api.line.me/api/notify";
-const key = "AJQ2TaZqmdhPxUCQIiwLHjP5Ep7D3Cv1oKVzjhkJh9Y";
+const key = "0VBDuvI5xEvp6vze8ioEtGN4ycIUUt5MhWoBj1jDXEl";
 let message = "Parkease Backend has been deploy on http://backend.parkease.site/";
 
 async function sendSticker(message, stickerPackageId, stickerId) {
