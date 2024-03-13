@@ -57,11 +57,11 @@ jobs:
         run: docker-compose -f "docker-compose.yml" up -d --build
 
       - name: notify-before-deployment
-        run: node notify-before.ts
+        run: node notify-before.js
 
       - name: after-deployment
         if: ${{ job.status == 'success' }}
-        run: node notify-before.ts
+        run: node notify.js
         # if: ${{ job.status == 'failure' }}
         # run: node notify-before.ts
         
