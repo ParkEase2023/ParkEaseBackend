@@ -1,10 +1,10 @@
-import axios from "axios";
+const axios = require("axios");
 
-const url: string = "https://notify-api.line.me/api/notify";
-const key: string = "AJQ2TaZqmdhPxUCQIiwLHjP5Ep7D3Cv1oKVzjhkJh9Y";
-let message: string = "กำลัง Deploy Parkease Backend โปรดรอซักครู่ อาจใช้เวลาถึง 15 นาที";
+const url = "https://notify-api.line.me/api/notify";
+const key = "AJQ2TaZqmdhPxUCQIiwLHjP5Ep7D3Cv1oKVzjhkJh9Y";
+let message = "Parkease Backend has been deploy on http://backend.parkease.site/";
 
-async function sendSticker(message: string, stickerPackageId: number, stickerId: number): Promise<void> {
+async function sendSticker(message, stickerPackageId, stickerId) {
   try {
     const params = new URLSearchParams();
     params.append("message", message);
@@ -15,12 +15,12 @@ async function sendSticker(message: string, stickerPackageId: number, stickerId:
         Authorization: "Bearer " + key,
       },
     });
-  } catch (error:any) {
+  } catch (error) {
     console.log(error.response?.data?.message || error.message);
   }
 }
 
-async function send(): Promise<void> {
+async function send() {
   try {
     const params = new URLSearchParams();
     params.append("message", message);
@@ -29,10 +29,10 @@ async function send(): Promise<void> {
         Authorization: "Bearer " + key,
       },
     });
-  } catch (error:any) {
+  } catch (error) {
     console.log(error.response?.data?.message || error.message);
   }
 }
 
 // Example usage
-sendSticker(message, 11537, 52002746);
+sendSticker(message, 11537, 52002734);
