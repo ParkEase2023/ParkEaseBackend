@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import axios from 'axios';
 import Parking from '../models/Parking';
 import { uploadImage } from '../utils/cloudinary';
+import mongoose from 'mongoose';
 
 const apiKey = 'AIzaSyDWq2S-Qh6vwRbYnuvHHEZ4KLG-TsJvDsg';
 const apiUrl =
@@ -44,7 +45,7 @@ export const getFormattedAddress = async (req: Request, res: Response) => {
 
 export const createParking = async (req: Request, res: Response) => {
     let picture = [req.body.parking_picture1, req.body.parking_picture2, req.body.parking_picture3];
-    let parking_picture:string[] = [];
+    let parking_picture: string[] = [];
     for (let i = 0; i < 3; i++) {
         const { secure_url } = await uploadImage(picture[i]);
         parking_picture.push(secure_url);
@@ -94,4 +95,43 @@ export const getAllParking = async (req: Request, res: Response) => {
         message: 'success',
         data: data,
     });
+};
+
+export const getMyparking = async (req: Request, res: Response) => {
+    console.log('getMyparking work!');
+    const query = req.query;
+    console.log('getMyparking: ', query.createBy);
+    const regexQuery = query.createBy;
+    console.log(regexQuery);
+    try {
+        if (query.createBy !== '') {
+            const regexQuery = query.createBy;
+            if (regexQuery) {
+                console.log(regexQuery);
+                const dataMyparking: any = await Parking.aggregate([
+                    { $match: { createBy: new mongoose.Types.ObjectId(regexQuery.toString()) } },
+                    { $sort: { createdAt: -1 } },
+                ]);
+                if (dataMyparking.length > 0) {
+                    res.status(200).json({
+                        message: 'success',
+                        Myparking: dataMyparking,
+                    });
+                    console.log(dataMyparking);
+                } else {
+                    console.log('No data');
+                    res.status(400).json({ message: 'No results found' });
+                }
+            } else {
+                console.log('regexQuery is undefined');
+                res.status(400).json({ message: 'Invalid query' });
+            }
+        } else {
+            console.log('No search');
+            res.status(400).json({ message: 'Please enter place name' });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500);
+    }
 };
