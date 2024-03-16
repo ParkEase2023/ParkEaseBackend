@@ -14,6 +14,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: notify-before-deployment
+        run: node notify-before.js
+
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -55,9 +58,6 @@ jobs:
 
       - name: Run Docker compose
         run: docker-compose -f "docker-compose.yml" up -d --build
-
-      - name: notify-before-deployment
-        run: node notify-before.js
 
       - name: after-deployment
         if: ${{ job.status == 'success' }}
