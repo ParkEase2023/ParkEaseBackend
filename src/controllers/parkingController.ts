@@ -135,3 +135,54 @@ export const getMyparking = async (req: Request, res: Response) => {
         res.status(500);
     }
 };
+
+export const deleteMyParking = async (req: Request, res: Response) => {
+    console.log(req.query._id);
+    await Parking.findByIdAndDelete(req.query._id)
+        .then((data) => {
+            console.log(data);
+            res.send(data);
+        })
+        .catch((err) => {
+            console.log('error', err);
+        });
+};
+
+export const updateParking = async (req: Request, res: Response) => {
+    console.log('updateParking work!');
+
+    try {
+        let picture = [
+            req.body.parking_picture1,
+            req.body.parking_picture2,
+            req.body.parking_picture3,
+        ];
+        let parking_picture: string[] = [];
+        for (let i = 0; i < 3; i++) {
+            const { secure_url } = await uploadImage(picture[i]);
+            parking_picture.push(secure_url);
+        }
+
+        await Parking.findByIdAndUpdate(req.body._id, {
+            title: req.body.title,
+            contact: req.body.contact,
+            cost: req.body.cost,
+            handicap: req.body.handicap,
+            type: req.body.type,
+            timeOpen: req.body.timeOpen,
+            timeClose: req.body.timeClose,
+            // toiletpicture: secure_url,
+        })
+
+            .then((data) => {
+                console.log(data);
+                res.status(200).json({ data: data });
+            })
+            .catch((err) => {
+                console.log('error', err);
+                res.status(500).json({ message: 'server error' });
+            });
+    } catch (error) {
+        console.log('error', error);
+    }
+};
