@@ -186,3 +186,48 @@ export const updateParking = async (req: Request, res: Response) => {
         console.log('error', error);
     }
 };
+
+
+export const openParking = async (req: Request, res: Response) => {
+    try {
+        const uid = req.params.id;
+
+
+        await Parking.findByIdAndUpdate(uid, {
+            opening_status: true,
+        })
+
+            .then((data) => {
+                console.log(data);
+                res.status(200).json({ data: data });
+            })
+            .catch((err) => {
+                console.log('error', err);
+                res.status(500).json({ message: 'server error' });
+            });
+    } catch (error) {
+        console.log('error', error);
+    }
+};
+
+export const closeParking = async (req: Request, res: Response) => {
+    try {
+        const uid = req.params.id;
+
+
+        await Parking.findByIdAndUpdate(uid, {
+            opening_status: false,
+        })
+
+            .then((data) => {
+                console.log(data);
+                res.status(200).json({ data: data });
+            })
+            .catch((err) => {
+                console.log('error', err);
+                res.status(500).json({ message: 'server error' });
+            });
+    } catch (error) {
+        console.log('error', error);
+    }
+};
