@@ -161,17 +161,25 @@ export const updateParking = async (req: Request, res: Response) => {
         for (let i = 0; i < 3; i++) {
             const { secure_url } = await uploadImage(picture[i]);
             parking_picture.push(secure_url);
-        }
+        } 
 
-        await Parking.findByIdAndUpdate(req.body._id, {
+        await Parking.findByIdAndUpdate(req.body.id, {
             title: req.body.title,
-            contact: req.body.contact,
-            cost: req.body.cost,
-            handicap: req.body.handicap,
-            type: req.body.type,
+            phone_number: req.body.phone,
+            price: req.body.price,
             timeOpen: req.body.timeOpen,
             timeClose: req.body.timeClose,
-            // toiletpicture: secure_url,
+            location_address: req.body.location_address,
+            parking_picture1: parking_picture[0],
+            parking_picture2: parking_picture[1],
+            parking_picture3: parking_picture[2],
+            opening_mo: req.body.opening_mo,
+            opening_tu: req.body.opening_tu,
+            opening_we: req.body.opening_we,
+            opening_th: req.body.opening_th,
+            opening_fr: req.body.opening_fr,
+            opening_sa: req.body.opening_sa,
+            opening_su: req.body.opening_su,
         })
 
             .then((data) => {
