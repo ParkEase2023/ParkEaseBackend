@@ -21,6 +21,16 @@ export const getProfile = async (req: Request, res: Response) => {
     });
 };
 
+export const getProfileById = async (req: Request, res: Response) => {
+    const id = req.body.id;
+    console.log(id);
+    const user = await User.findById(id);
+    res.status(200).json({
+        message: 'success',
+        data: user,
+    });
+};
+
 export const updateUser = async (req: Request, res: Response) => {
     try {
         const uid = req.params.uid;
