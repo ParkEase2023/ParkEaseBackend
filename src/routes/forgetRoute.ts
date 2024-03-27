@@ -3,7 +3,7 @@ import {checkemail, checkeOTP, forgetpassword} from '../controllers/forgetpasswo
 
 
 const router = express.Router();
-router.get('/checkemail', checkemail);
+router.post('/checkemail', checkemail);
 router.get('/checkeOTP', checkeOTP);
 router.put('/forgetpassword/:email',forgetpassword)
 
