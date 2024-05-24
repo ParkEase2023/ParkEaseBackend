@@ -16,6 +16,7 @@ import transactionRoute from './routes/transactionRoute';
 import notificationRoute from './routes/notificationRoute';
 import recipienRoute from './routes/recipienRoute';
 import membershipRoute from './routes/membershipRoute';
+import bookingRoute from './routes/bookingRoute';
 import bodyParser from 'body-parser';
 import {cronJobMiddleware} from './cronjob/cronJobMiddleware';
 
@@ -69,7 +70,9 @@ app.use('/transaction', transactionRoute);
 app.use('/comment', commentRoute);
 app.use('/notification', notificationRoute);
 app.use('/recipien', recipienRoute);
-app.use('/membership',membershipRoute)
+app.use('/membership',membershipRoute);
+app.use('/booking',bookingRoute)
+
  
 
 
