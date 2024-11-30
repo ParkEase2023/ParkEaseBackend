@@ -7,7 +7,6 @@ on:
 jobs:
   build:
     runs-on:
-      - self-hosted
       - deployment-server
 
     steps:
@@ -37,7 +36,6 @@ jobs:
   pull:
     needs: build
     runs-on:
-      - self-hosted
       - deployment-server
     steps:
       - name: Pull image from Docker Hub
@@ -46,7 +44,6 @@ jobs:
   deploy:
     needs: pull
     runs-on:
-      - self-hosted
       - deployment-server
 
     steps:
