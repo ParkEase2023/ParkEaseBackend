@@ -66,10 +66,10 @@ jobs:
       - name: Run Docker compose
         run: docker-compose -f "docker-compose.yml" up -d --build
 
-      - name: after-deployment
-        if: ${{ job.status == 'success' }}
-        run: node notify.js
+      # - name: after-deployment
+      #   if: ${{ job.status == 'success' }}
+      #   run: node notify.js
 
-      - name: after-deployment
-        if: ${{ job.status == 'failure' }}
-        run: node notify-fail.js
+      # - name: after-deployment
+      #   if: ${{ job.status == 'failure' }}
+      #   run: node notify-fail.js
