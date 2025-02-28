@@ -11,7 +11,7 @@ jobs:
       - self-hosted
       - Linux 
       - X64
-      - deployment-server
+      - server
 
 
     steps:
@@ -44,7 +44,7 @@ jobs:
       - self-hosted
       - Linux 
       - X64
-      - deployment-server
+      - server
 
     steps:
       - name: Pull image from Docker Hub
@@ -56,7 +56,7 @@ jobs:
       - self-hosted
       - Linux 
       - X64
-      - deployment-server
+      - server
 
 
 
