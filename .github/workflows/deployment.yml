@@ -8,7 +8,9 @@ on:
 jobs:
   build:
     runs-on:
-      - ip-172-31-46-185
+      - self-hosted
+      - Linux 
+      - X64
 
 
     steps:
@@ -38,7 +40,9 @@ jobs:
   pull:
     needs: build
     runs-on:
-      - ip-172-31-46-185
+      - self-hosted
+      - Linux 
+      - X64
 
     steps:
       - name: Pull image from Docker Hub
@@ -47,7 +51,9 @@ jobs:
   deploy:
     needs: pull
     runs-on:
-      - ip-172-31-46-185
+      - self-hosted
+      - Linux 
+      - X64
 
 
 
