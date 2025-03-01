@@ -7,8 +7,8 @@ import { approveTransfers } from './transactionController';
 const Omise = require('omise');
 const QRCode = require('qrcode');
 const omise = new Omise({
-    publicKey: 'pkey_test_5xg1y8vhghfe2gisvjv',
-    secretKey: 'skey_test_5xg1au51hinusifooyb',
+    publicKey: 'pkey_test_62wldk4oshytvtvgxmf',
+    secretKey: 'skey_test_62wldk5pyrj1jx5ck11',
 });
 const sharp = require('sharp');
 const fs = require('fs');
